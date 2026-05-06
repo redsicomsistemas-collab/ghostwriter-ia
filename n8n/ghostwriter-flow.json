@@ -1,0 +1,65 @@
+{
+  "name": "Ghostwriter IA - Revision humana",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "name": "Cada dia 8am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [260, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=tu+sector"
+      },
+      "name": "RSS tendencias",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [520, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:8000/generate",
+        "sendBody": true,
+        "contentType": "json",
+        "jsonBody": "={\"topic\":\"{{$json.title}}\\n{{$json.contentSnippet}}\\n{{$json.link}}\",\"platforms\":[\"linkedin\",\"x\",\"instagram\"]}"
+      },
+      "name": "Generar drafts",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [780, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "TU_GOOGLE_SHEET_ID",
+        "sheetName": "Drafts"
+      },
+      "name": "Enviar a revision",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [1040, 300]
+    }
+  ],
+  "connections": {
+    "Cada dia 8am": {
+      "main": [[{"node": "RSS tendencias", "type": "main", "index": 0}]]
+    },
+    "RSS tendencias": {
+      "main": [[{"node": "Generar drafts", "type": "main", "index": 0}]]
+    },
+    "Generar drafts": {
+      "main": [[{"node": "Enviar a revision", "type": "main", "index": 0}]]
+    }
+  }
+}

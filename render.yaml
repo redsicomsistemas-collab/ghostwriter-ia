@@ -1,0 +1,29 @@
+services:
+  - type: web
+    runtime: python
+    name: ghostwriter-ia
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    disk:
+      name: ghostwriter-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.3
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-5.2
+      - key: OPENAI_EMBEDDING_MODEL
+        value: text-embedding-3-small
+      - key: DATABASE_URL
+        value: sqlite:////var/data/ghostwriter.db
+      - key: BUFFER_ACCESS_TOKEN
+        sync: false
+      - key: BUFFER_PROFILE_IDS
+        sync: false
+      - key: DEFAULT_BRAND_CONTEXT
+        value: Escribe en primera persona, con criterio practico y sin sonar corporativo.
