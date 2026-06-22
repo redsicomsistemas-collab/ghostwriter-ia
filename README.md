@@ -26,9 +26,10 @@ Edita `.env` y agrega `OPENAI_API_KEY`. El modelo queda configurable con `OPENAI
 .\.venv\Scripts\uvicorn app.main:app --reload --port 8000
 ```
 
-## Endpoints principales
+## Vistas y endpoints principales
 
 - `GET /` interfaz web sencilla
+- `GET /app` panel del ghostwriter
 - `GET /health`
 - `POST /posts/ingest`
 - `POST /ideas`

@@ -164,12 +164,29 @@ $("#profile-btn").addEventListener("click", async () => {
   output.textContent = "Recuperando ejemplos similares...";
   try {
     const data = await requestJson(`/style-profile?topic=${encodeURIComponent(topic)}`);
-    output.innerHTML = `<p>${data.profile}</p>` + data.examples.map((example) => `
-      <div class="example-item">
-        <div><strong>${example.platform}</strong> <span class="score">${Number(example.score).toFixed(3)}</span></div>
-        <p>${example.text}</p>
-      </div>
-    `).join("");
+    output.textContent = "";
+    const profile = document.createElement("p");
+    profile.textContent = data.profile;
+    output.appendChild(profile);
+
+    data.examples.forEach((example) => {
+      const item = document.createElement("div");
+      item.className = "example-item";
+
+      const meta = document.createElement("div");
+      const platform = document.createElement("strong");
+      platform.textContent = example.platform;
+      const score = document.createElement("span");
+      score.className = "score";
+      score.textContent = ` ${Number(example.score).toFixed(3)}`;
+      meta.append(platform, score);
+
+      const text = document.createElement("p");
+      text.textContent = example.text;
+
+      item.append(meta, text);
+      output.appendChild(item);
+    });
     setStatus("#profile-status", "Listo");
   } catch (error) {
     output.textContent = error.message;

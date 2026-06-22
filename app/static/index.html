@@ -3,137 +3,132 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ghostwriter IA</title>
+    <title>Sonny | Ghostwriter de redes sociales con IA</title>
+    <meta
+      name="description"
+      content="Convierte tus redes sociales en una maquina de generar leads con un ghostwriter de IA que replica tu tono y publica contenido constante."
+    />
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
-  <body>
-    <header class="topbar">
-      <div>
-        <h1>Ghostwriter IA</h1>
-        <p>Borradores con tu estilo, ejemplos recuperados y revision humana.</p>
-      </div>
-      <nav class="tabs" aria-label="Vistas">
-        <button class="tab active" data-view="write">Escribir</button>
-        <button class="tab" data-view="examples">Ejemplos</button>
-        <button class="tab" data-view="drafts">Borradores</button>
+  <body class="landing-page">
+    <header class="site-header">
+      <a class="brand" href="/">
+        <span class="brand-mark">S</span>
+        <span>Sonny</span>
+      </a>
+      <nav class="site-nav" aria-label="Principal">
+        <a href="#platforms">Plataformas</a>
+        <a href="#results">Resultados</a>
+        <a href="#faq">FAQ</a>
+        <a class="nav-cta" href="/app">Abrir app</a>
       </nav>
     </header>
 
     <main>
-      <section id="write" class="view active">
-        <div class="layout two">
-          <form id="generate-form" class="panel">
-            <div class="panel-head">
-              <h2>Crear contenido</h2>
-              <span id="generate-status" class="status"></span>
-            </div>
-
-            <label>
-              Tema o noticia
-              <textarea id="topic" rows="7" required placeholder="Pega una noticia, tendencia o idea concreta..."></textarea>
-            </label>
-
-            <label>
-              Contexto de marca
-              <textarea id="brand-context" rows="4" placeholder="Ej. tono directo, practico, profesional, sin sonar corporativo."></textarea>
-            </label>
-
-            <div class="field">
-              <span>Plataformas</span>
-              <div class="checks">
-                <label><input type="checkbox" name="platform" value="linkedin" checked /> LinkedIn</label>
-                <label><input type="checkbox" name="platform" value="x" checked /> X</label>
-                <label><input type="checkbox" name="platform" value="instagram" checked /> Instagram</label>
-              </div>
-            </div>
-
-            <div class="actions">
-              <button type="button" id="ideas-btn" class="secondary">Generar ideas</button>
-              <button type="submit">Generar borradores</button>
-            </div>
-          </form>
-
-          <section class="panel">
-            <div class="panel-head">
-              <h2>Resultado</h2>
-              <button id="refresh-drafts" class="icon-button" title="Actualizar borradores" aria-label="Actualizar borradores">↻</button>
-            </div>
-            <div id="ideas-output" class="ideas empty">Las ideas apareceran aqui.</div>
-            <div id="generated-output" class="draft-grid"></div>
-          </section>
-        </div>
-      </section>
-
-      <section id="examples" class="view">
-        <div class="layout two">
-          <form id="ingest-form" class="panel">
-            <div class="panel-head">
-              <h2>Guardar ejemplo</h2>
-              <span id="ingest-status" class="status"></span>
-            </div>
-
-            <label>
-              Plataforma
-              <select id="example-platform">
-                <option value="linkedin">LinkedIn</option>
-                <option value="x">X</option>
-                <option value="instagram">Instagram</option>
-              </select>
-            </label>
-
-            <label>
-              Texto del post
-              <textarea id="example-text" rows="9" required placeholder="Pega un post real tuyo para que el sistema aprenda tono y estructura..."></textarea>
-            </label>
-
-            <label>
-              URL opcional
-              <input id="example-url" type="url" placeholder="https://..." />
-            </label>
-
-            <button type="submit">Guardar ejemplo</button>
-          </form>
-
-          <section class="panel">
-            <div class="panel-head">
-              <h2>Perfil de estilo</h2>
-              <span id="profile-status" class="status"></span>
-            </div>
-            <label>
-              Tema para comparar
-              <input id="profile-topic" type="text" placeholder="Ej. automatizacion con IA" />
-            </label>
-            <button id="profile-btn" class="secondary">Ver ejemplos similares</button>
-            <div id="profile-output" class="examples-list empty">Aqui veras los ejemplos recuperados.</div>
-          </section>
-        </div>
-      </section>
-
-      <section id="drafts" class="view">
-        <section class="panel">
-          <div class="panel-head">
-            <h2>Borradores guardados</h2>
-            <button id="load-drafts" class="secondary">Actualizar</button>
+      <section class="hero">
+        <img class="hero-bg" src="/static/assets/hero-dashboard.png" alt="" />
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <p class="eyebrow">Tu Ghostwriter de Redes Sociales con IA</p>
+          <h1>Convierto tus redes sociales en una maquina de generar leads</h1>
+          <p class="hero-subtitle">Sin que tengas que bailar frente a la camara.</p>
+          <div class="hero-actions">
+            <a class="primary-link" href="/app">Get Started</a>
+            <a class="secondary-link" href="#faq">Ver como trabaja</a>
           </div>
-          <div id="drafts-list" class="draft-grid"></div>
-        </section>
+          <div class="trust-row">
+            <strong>+40,000</strong>
+            <span>negocios satisfechos</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="pain-band" aria-label="Problemas frecuentes">
+        <div class="pain-list">
+          <p>"Mis cuentas de redes sociales no se actualizan hace semanas"</p>
+          <p>"No quiero gastar $3,000 al mes en un administrador de redes sociales"</p>
+          <p>"Probe ChatGPT pero los posts suenan todos generados por IA"</p>
+        </div>
+      </section>
+
+      <section id="platforms" class="section split-section">
+        <div>
+          <p class="section-kicker">Contenido constante</p>
+          <h2>Publica en Instagram, LinkedIn, X y Facebook 3 veces al dia</h2>
+        </div>
+        <div class="feature-list">
+          <article>
+            <span>01</span>
+            <h3>Replica tu tono</h3>
+            <p>Aprende con tus posts previos para mantener estructura, ritmo, vocabulario y nivel de formalidad.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Ideas todos los dias</h3>
+            <p>Convierte noticias, tendencias y temas de tu industria en angulos publicables.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Crece sin improvisar</h3>
+            <p>Prepara borradores por plataforma y deja listo el camino para programar contenido automatico.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="results" class="stats-band">
+        <div class="stat">
+          <strong>3x</strong>
+          <span>aumento promedio de engagement en 30 dias</span>
+        </div>
+        <div class="stat">
+          <strong>2x</strong>
+          <span>crecimiento de seguidores en el primer mes</span>
+        </div>
+        <div class="stat">
+          <strong>92%</strong>
+          <span>dicen que Sonny escribe mejor contenido que ChatGPT</span>
+        </div>
+        <div class="stat">
+          <strong>87%</strong>
+          <span>dicen que Sonny les ahorro 5+ horas por semana</span>
+        </div>
+      </section>
+
+      <section id="faq" class="section faq-section">
+        <div class="faq-intro">
+          <p class="section-kicker">Preguntas frecuentes</p>
+          <h2>Mira crecer tus redes mientras duermes</h2>
+          <a class="primary-link compact" href="/app">Probar Sonny</a>
+        </div>
+        <div class="faq-list">
+          <details open>
+            <summary>¿Con que frecuencia publica Sonny?</summary>
+            <p>Sonny puede preparar contenido para publicar al menos 3 veces al dia. Puedes ajustar la frecuencia segun tu negocio.</p>
+          </details>
+          <details>
+            <summary>¿Como hace crecer Sonny mi audiencia?</summary>
+            <p>Convierte tus temas, tendencias y ofertas en publicaciones constantes con una voz consistente y llamadas a la accion.</p>
+          </details>
+          <details>
+            <summary>¿En que plataformas publica Sonny?</summary>
+            <p>La base actual genera contenido para Instagram, LinkedIn y X. Facebook queda listo para sumarse con la misma arquitectura.</p>
+          </details>
+          <details>
+            <summary>¿Sonny se adaptara a la voz de mi marca?</summary>
+            <p>Si. Guarda ejemplos reales, busca los mas parecidos al nuevo tema y los usa como referencia antes de escribir.</p>
+          </details>
+          <details>
+            <summary>¿Sonny trabaja sin supervision?</summary>
+            <p>Puede preparar borradores automaticamente, pero recomendamos revision humana antes de publicar hasta conectar aprobaciones y reglas.</p>
+          </details>
+          <details>
+            <summary>¿Puedo personalizar el contenido que Sonny crea?</summary>
+            <p>Si. Puedes definir contexto de marca, plataformas, ejemplos, temas y despues editar o aprobar cada borrador.</p>
+          </details>
+        </div>
       </section>
     </main>
 
-    <template id="draft-card-template">
-      <article class="draft-card">
-        <div class="draft-meta">
-          <span class="platform"></span>
-          <span class="status-pill"></span>
-        </div>
-        <p class="draft-content"></p>
-        <div class="draft-actions">
-          <button class="copy-btn secondary" type="button">Copiar</button>
-          <button class="approve-btn" type="button">Aprobar</button>
-        </div>
-      </article>
-    </template>
-
-    <script src="/static/app.js"></script>
+    <script src="/static/landing.js"></script>
   </body>
 </html>

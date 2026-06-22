@@ -33,6 +33,11 @@ def index() -> FileResponse:
     return FileResponse("app/static/index.html")
 
 
+@app.get("/app", include_in_schema=False)
+def web_app() -> FileResponse:
+    return FileResponse("app/static/app.html")
+
+
 @app.post("/posts/ingest")
 def ingest_post(payload: PostIngest) -> dict:
     embedding = embed_text(payload.text)
