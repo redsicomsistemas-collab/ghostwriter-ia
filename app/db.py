@@ -53,6 +53,15 @@ def init_db() -> None:
                 status TEXT NOT NULL DEFAULT 'draft',
                 created_at TEXT NOT NULL
             );
+
+            CREATE TABLE IF NOT EXISTS automation_runs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                source TEXT NOT NULL,
+                topic TEXT NOT NULL,
+                status TEXT NOT NULL,
+                message TEXT,
+                created_at TEXT NOT NULL
+            );
             """
         )
 
@@ -105,3 +114,25 @@ def get_draft(draft_id: int) -> sqlite3.Row | None:
 def update_draft_status(draft_id: int, status: str) -> None:
     with connect() as conn:
         conn.execute("UPDATE drafts SET status = ? WHERE id = ?", (status, draft_id))
+
+
+def insert_automation_run(source: str, topic: str, status: str, message: str | None = None) -> int:
+    with connect() as conn:
+        cur = conn.execute(
+            """
+            INSERT INTO automation_runs (source, topic, status, message, created_at)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (source, topic, status, message, now_iso()),
+        )
+        return int(cur.lastrowid)
+
+
+def list_automation_runs(limit: int = 20) -> list[sqlite3.Row]:
+    with connect() as conn:
+        return list(
+            conn.execute(
+                "SELECT * FROM automation_runs ORDER BY id DESC LIMIT ?",
+                (limit,),
+            )
+        )

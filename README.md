@@ -37,6 +37,8 @@ Edita `.env` y agrega `OPENAI_API_KEY`. El modelo queda configurable con `OPENAI
 - `GET /drafts`
 - `POST /drafts/{draft_id}/approve`
 - `POST /drafts/{draft_id}/publish/buffer`
+- `GET /automation/status`
+- `POST /automation/run-once`
 
 ## Flujo recomendado
 
@@ -76,3 +78,22 @@ Variables necesarias:
 - `BUFFER_PROFILE_IDS` solo si vas a publicar con Buffer
 
 El `render.yaml` usa un disco persistente en `/var/data` y guarda SQLite en `sqlite:////var/data/ghostwriter.db`.
+
+## Modo automatico
+
+Para que Sonny trabaje solo en Render, configura estas variables:
+
+- `AUTO_MODE_ENABLED=true`
+- `AUTO_CONTENT_FEED_URL=https://news.google.com/rss/search?q=tu+industria`
+- `AUTO_CONTENT_TOPICS=tema fijo 1|tema fijo 2` opcional
+- `AUTO_CONTENT_PLATFORMS=linkedin,x,instagram`
+- `AUTO_POST_INTERVAL_MINUTES=480` para 3 veces al dia
+- `AUTO_POST_LIMIT_PER_RUN=1`
+
+Con eso crea borradores automaticamente. Para publicar sin supervision via Buffer:
+
+- `AUTO_PUBLISH_ENABLED=true`
+- `BUFFER_ACCESS_TOKEN=...`
+- `BUFFER_PROFILE_IDS={"linkedin":"id","x":"id","instagram":"id"}`
+
+Si `AUTO_PUBLISH_ENABLED=false`, el sistema solo genera borradores para revision humana.

@@ -27,3 +27,17 @@ services:
         sync: false
       - key: DEFAULT_BRAND_CONTEXT
         value: Escribe en primera persona, con criterio practico y sin sonar corporativo.
+      - key: AUTO_MODE_ENABLED
+        value: false
+      - key: AUTO_PUBLISH_ENABLED
+        value: false
+      - key: AUTO_CONTENT_FEED_URL
+        value: https://news.google.com/rss/search?q=inteligencia+artificial+negocios
+      - key: AUTO_CONTENT_TOPICS
+        value: ""
+      - key: AUTO_CONTENT_PLATFORMS
+        value: linkedin,x,instagram
+      - key: AUTO_POST_INTERVAL_MINUTES
+        value: 480
+      - key: AUTO_POST_LIMIT_PER_RUN
+        value: 1

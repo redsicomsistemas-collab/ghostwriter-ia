@@ -6,7 +6,9 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from app.automation import run_automation_once, start_scheduler, stop_scheduler
 from app import db
+from app.config import settings
 from app.llm import embed_text, generate_text
 from app.prompts import IDEAS_SYSTEM_PROMPT, SYSTEM_PROMPT, build_ideas_prompt, build_user_prompt
 from app.publishers.buffer import publish_to_buffer
@@ -21,11 +23,35 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 @app.on_event("startup")
 def startup() -> None:
     db.init_db()
+    start_scheduler()
+
+
+@app.on_event("shutdown")
+def shutdown() -> None:
+    stop_scheduler()
 
 
 @app.get("/health")
 def health() -> dict:
     return {"ok": True}
+
+
+@app.get("/automation/status")
+def automation_status() -> dict:
+    return {
+        "auto_mode_enabled": settings.auto_mode_enabled,
+        "auto_publish_enabled": settings.auto_publish_enabled,
+        "platforms": settings.auto_content_platforms,
+        "feed_url": settings.auto_content_feed_url,
+        "interval_minutes": settings.auto_post_interval_minutes,
+        "limit_per_run": settings.auto_post_limit_per_run,
+        "recent_runs": [dict(row) for row in db.list_automation_runs()],
+    }
+
+
+@app.post("/automation/run-once")
+def automation_run_once() -> dict:
+    return run_automation_once()
 
 
 @app.get("/", include_in_schema=False)
