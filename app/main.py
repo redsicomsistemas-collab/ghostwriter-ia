@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from app import db
 from app.llm import embed_text, generate_text
@@ -13,6 +15,7 @@ from app.schemas import DraftOut, GenerateRequest, IdeasRequest, PostIngest
 
 
 app = FastAPI(title="Ghostwriter con IA", version="0.1.0")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 
 @app.on_event("startup")
@@ -23,6 +26,11 @@ def startup() -> None:
 @app.get("/health")
 def health() -> dict:
     return {"ok": True}
+
+
+@app.get("/", include_in_schema=False)
+def index() -> FileResponse:
+    return FileResponse("app/static/index.html")
 
 
 @app.post("/posts/ingest")

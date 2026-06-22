@@ -28,6 +28,7 @@ Edita `.env` y agrega `OPENAI_API_KEY`. El modelo queda configurable con `OPENAI
 
 ## Endpoints principales
 
+- `GET /` interfaz web sencilla
 - `GET /health`
 - `POST /posts/ingest`
 - `POST /ideas`
