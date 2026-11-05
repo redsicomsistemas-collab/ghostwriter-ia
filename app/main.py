@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import json
+import os
 
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.automation import run_automation_once, start_scheduler, stop_scheduler
@@ -17,11 +18,21 @@ from app.schemas import DraftOut, GenerateRequest, IdeasRequest, PostIngest
 
 
 app = FastAPI(title="Ghostwriter con IA", version="0.1.0")
+MIGRATION_TARGET_URL = os.getenv("MIGRATION_TARGET_URL", "").strip().rstrip("/")
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+@app.middleware("http")
+async def redirect_migrated_service(request: Request, call_next):
+    if MIGRATION_TARGET_URL:
+        suffix = request.url.path + (f"?{request.url.query}" if request.url.query else "")
+        return RedirectResponse(f"{MIGRATION_TARGET_URL}{suffix}", status_code=308)
+    return await call_next(request)
 
 
 @app.on_event("startup")
 def startup() -> None:
+    if MIGRATION_TARGET_URL:
+        return
     db.init_db()
     start_scheduler()
 
