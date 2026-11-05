@@ -2,10 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import secrets as pysecrets
-import shutil
-import tempfile
-from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, RedirectResponse
@@ -23,32 +19,14 @@ from app.schemas import DraftOut, GenerateRequest, IdeasRequest, PostIngest
 
 app = FastAPI(title="Ghostwriter con IA", version="0.1.0")
 MIGRATION_TARGET_URL = os.getenv("MIGRATION_TARGET_URL", "").strip().rstrip("/")
-MIGRATION_EXPORT_TOKEN = os.getenv("MIGRATION_EXPORT_TOKEN", "")
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 @app.middleware("http")
 async def redirect_migrated_service(request: Request, call_next):
-    if request.url.path == "/__migration/export" and MIGRATION_EXPORT_TOKEN and pysecrets.compare_digest(
-        request.headers.get("authorization", ""), f"Bearer {MIGRATION_EXPORT_TOKEN}"
-    ):
-        return await call_next(request)
     if MIGRATION_TARGET_URL:
         suffix = request.url.path + (f"?{request.url.query}" if request.url.query else "")
         return RedirectResponse(f"{MIGRATION_TARGET_URL}{suffix}", status_code=308)
     return await call_next(request)
-
-@app.get("/__migration/export")
-def export_render_disk(request: Request):
-    if not MIGRATION_EXPORT_TOKEN or not pysecrets.compare_digest(
-        request.headers.get("authorization", ""), f"Bearer {MIGRATION_EXPORT_TOKEN}"
-    ):
-        raise HTTPException(status_code=404)
-    source = Path("/var/data")
-    if not source.is_dir():
-        raise HTTPException(status_code=404)
-    archive_base = Path(tempfile.gettempdir()) / "ghostwriter-render-final"
-    archive = shutil.make_archive(str(archive_base), "zip", root_dir=source)
-    return FileResponse(archive, filename="ghostwriter-render-final.zip")
 
 
 @app.on_event("startup")
